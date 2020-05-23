@@ -3,31 +3,33 @@
   <head>
     <title>Weather Server</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-grid.min.css') }}">
   </head>
 
   <body>
-    <div class="wrapper clear">
-      <div id="g1" class="gauge"></div>
-      <div id="g2" class="gauge"></div>
+    <div class="container">
+      <div class="row">
+        <div id="g1" class="col-sm"></div>
+        <div id="g2" class="col-sm"></div>
+      </div>
     </div>
+
     <script src="{{ url_for('static', filename='js/raphael-2.1.4.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/justgage.js') }}"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function(event) {
-        var g1, g2;
 
-        var g1 = new JustGage({
+    <script>
+      document.addEventListener("DOMContentLoaded", (event) => {
+        const g1 = new JustGage({
           id: "g1",
           value: {{temperature}},
           min: 0,
-          max: 50,
+          max: 40,
           decimals: 1,
           title: "Temperature",
           gaugeWidthScale: 0.5
-        });
+        })
 
-        var g2 = new JustGage({
+        const g2 = new JustGage({
           id: "g2",
           value: {{humidity}},
           min: 0,
@@ -35,9 +37,12 @@
           decimals: 1,
           title: "Humidity",
           gaugeWidthScale: 0.5
+        })
+      })
 
-        });
-      });
+      setTimeout(() => {
+        window.location.reload()
+      }, 3000)
     </script>
   </body>
 </html>
