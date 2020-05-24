@@ -11,6 +11,7 @@
       <div class="row">
         <div id="g1" class="col-sm"></div>
         <div id="g2" class="col-sm"></div>
+        <div id="g3" class="col-sm"></div>
       </div>
     </div>
 
@@ -36,6 +37,16 @@
           max: 100,
           decimals: 1,
           title: "Humidity",
+          gaugeWidthScale: 0.5
+        })
+
+        const g3 = new JustGage({
+          id: "g3",
+          value: {{light}},
+          min: 0,
+          max: 10000,
+          decimals: 0,
+          title: "Light",
           gaugeWidthScale: 0.5
         })
       })
