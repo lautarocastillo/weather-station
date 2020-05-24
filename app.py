@@ -30,8 +30,8 @@ def main():
    humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
    light = rc_time(LDR_SENSOR)
    templateData = {
-      'temperature': temperature,
-      'humidity':    humidity,
+      'temperature': round(temperature, 2),
+      'humidity':    round(humidity, 2),
       'light':       light
    }
    if request.path == "/json":
