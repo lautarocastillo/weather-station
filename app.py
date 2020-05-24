@@ -8,7 +8,7 @@ import time
 app        = Flask(__name__)
 DHT_SENSOR = Adafruit_DHT.DHT22
 DHT_PIN    = 4
-LDR_SENSOR = 26
+LDR_SENSOR = 8
 GPIO.setmode(GPIO.BOARD)
 
 def rc_time(ldr_pin):
