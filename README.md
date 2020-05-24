@@ -12,3 +12,8 @@
 ```
 ./app.py
 ```
+
+
+## Circuit
+![Circuit](https://github.com/lautarocastillo/weather-station/images/circuit.png)
+![Diagram](https://github.com/lautarocastillo/weather-stationimages/diagram.png)
