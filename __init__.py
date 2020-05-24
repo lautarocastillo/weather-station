@@ -36,40 +36,38 @@ def create_app():
     @app.route("/")
     @app.route("/json")
     def main():
-       from weather.db import get_db
-       humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
-       light = rc_time(LDR_SENSOR)
-       templateData = {
-          'temperature': round(temperature, 2),
-          'humidity':    round(humidity, 2),
-          'light':       light
-       }
-       db = get_db()
-       db.execute(
-           'INSERT INTO weather (temperature, humidity, light) VALUES (?, ?, ?)',
-           (temperature, humidity, light)
-       )
-       db.commit()
+        from weather.db import get_db
+        humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
+        light = rc_time(LDR_SENSOR)
+        templateData = {
+            'temperature': round(temperature, 2),
+            'humidity':    round(humidity, 2),
+            'light':       light
+        }
+        db = get_db()
+        db.execute(
+            'INSERT INTO weather (temperature, humidity, light) VALUES (?, ?, ?)',
+            (temperature, humidity, light)
+        )
+        db.commit()
 
-       if request.path == "/json":
-           return templateData
+        if request.path == "/json":
+            return templateData
 
-       else:
-           return render_template('main.html', **templateData)
+        else:
+            return render_template('main.html', **templateData)
 
-       @app.route("/weather")
-       def weather():
-          humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
-          return {
-             'temperature': round(temperature, 2),
-             'humidity':    round(humidity, 2)
-          }
+    @app.route("/weather")
+    def weather():
+        humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
+        return {
+            'temperature': round(temperature, 2),
+            'humidity':    round(humidity, 2)
+        }
 
-       @app.route("/light")
-       def light():
-          light = rc_time(LDR_SENSOR)
-          return {
-             'light': light
-          }
+    @app.route("/light")
+    def light():
+        light = rc_time(LDR_SENSOR)
+        return { 'light': light }
 
     return app
