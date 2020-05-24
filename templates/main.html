@@ -3,16 +3,23 @@
   <head>
     <title>Weather Server</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-grid.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
   </head>
 
   <body>
-    <ul>
-      <li><a href="/json">Json</a></li>
-      <li><a href="/weather">Weather</a></li>
-      <li><a href="/light">Light</a></li>
-    </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/json">Json</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/weather">Weather</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/light">Light</a>
+        </li>
+      </ul>
+    </nav>
 
     <div class="container">
       <div class="row">
