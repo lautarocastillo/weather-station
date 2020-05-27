@@ -1,11 +1,9 @@
 import os
-from flask import Flask, render_template, request
-import Adafruit_DHT
-import RPi.GPIO as GPIO
-import time
-import board
-import busio
-import adafruit_veml6075
+from flask    import Flask, render_template, request
+from dht22    import Dht22
+from ldr      import Ldr
+from veml6075 import Veml6075
+
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
@@ -13,47 +11,24 @@ def create_app():
         SECRET_KEY = 'dev',
         DATABASE = os.path.join(app.root_path, 'db/weather-station.sqlite')
     )
-    DHT_SENSOR = Adafruit_DHT.DHT22
-    DHT_PIN    = 4
-    LDR_SENSOR = 8
+    DHT_PIN = 4
+    LDR_PIN = 14
 
     from . import db
     db.init_app(app)
-
-    GPIO.setmode(GPIO.BOARD)
-
-    def rc_time(ldr_pin):
-        count = 0
-        GPIO.setup(ldr_pin, GPIO.OUT)
-        GPIO.output(ldr_pin, GPIO.LOW)
-        time.sleep(0.1)
-
-        GPIO.setup(ldr_pin, GPIO.IN)
-
-        while (GPIO.input(ldr_pin) == GPIO.LOW):
-            count += 1
-
-        return count
-
-    def uv_sensor():
-        i2c  = busio.I2C(board.SCL, board.SDA)
-        veml = adafruit_veml6075.VEML6075(i2c, integration_time=100)
-
-        return veml
 
     @app.route("/")
     @app.route("/json")
     def main():
         from weather.db import get_db
-        humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
-        light = rc_time(LDR_SENSOR)
+        uv_sensor  = Veml6075()
+        dht_sensor = Dht22(DHT_PIN)
+        light      = Ldr(LDR_PIN)
+
         templateData = {
-            'temperature': round(temperature, 2),
-            'humidity':    round(humidity, 2),
-            'light':       light,
-            'uv_index':    uv_sensor.uv_index,
-            'uva':         uv_sensor.uva,
-            'uvb':         uv_sensor.uvb
+            **dht_sensor.read(),
+            'light': light.read(),
+            **uv_sensor.read()
         }
 
         db = get_db()
@@ -71,15 +46,12 @@ def create_app():
 
     @app.route("/weather")
     def weather():
-        humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
-        return {
-            'temperature': round(temperature, 2),
-            'humidity':    round(humidity, 2)
-        }
+        dht_sensor = Dht22(DHT_PIN)
+        return dht_sensor.read()
 
     @app.route("/light")
     def light():
-        light = rc_time(LDR_SENSOR)
-        return { 'light': light }
+        light = Ldr(LDR_PIN)
+        return { 'light': light.read() }
 
     return app

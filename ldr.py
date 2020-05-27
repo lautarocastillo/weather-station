@@ -4,7 +4,6 @@ import time
 class Ldr:
     def __init__(self, pin):
         self.pin =  pin
-        GPIO.setmode(GPIO.BOARD)
 
     def read(self):
         GPIO.setup(self.pin, GPIO.OUT)
