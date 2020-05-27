@@ -1,8 +1,8 @@
 import os
 from flask    import Flask, render_template, request
-from dht22    import Dht22
-from ldr      import Ldr
-from veml6075 import Veml6075
+from .dht22    import Dht22
+from .ldr      import Ldr
+from .veml6075 import Veml6075
 
 
 def create_app():
@@ -24,19 +24,20 @@ def create_app():
         uv_sensor  = Veml6075()
         dht_sensor = Dht22(DHT_PIN)
         light      = Ldr(LDR_PIN)
+        weather    = dht_sensor.read()
 
         templateData = {
-            **dht_sensor.read(),
+            **weather,
             'light': light.read(),
             **uv_sensor.read()
         }
 
-        db = get_db()
-        db.execute(
-            'INSERT INTO weather (temperature, humidity, light) VALUES (?, ?, ?)',
-            (temperature, humidity, light)
-        )
-        db.commit()
+        # db = get_db()
+        # db.execute(
+        #     'INSERT INTO weather (temperature, humidity, light) VALUES (?, ?, ?)',
+        #     (weather['temperature'], weather['humidity'], light)
+        # )
+        # db.commit()
 
         if request.path == "/json":
             return templateData
