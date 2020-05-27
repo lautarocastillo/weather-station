@@ -27,6 +27,11 @@
         <div id="g2" class="col-sm"></div>
         <div id="g3" class="col-sm"></div>
       </div>
+      <div class="row">
+        <div id="g4" class="col-sm"></div>
+        <div id="g5" class="col-sm"></div>
+        <div id="g6" class="col-sm"></div>
+      </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/raphael-2.1.4.min.js') }}"></script>
@@ -61,6 +66,36 @@
           max: 10000,
           decimals: 0,
           title: "Light",
+          gaugeWidthScale: 0.5
+        })
+
+        const g4 = new JustGage({
+          id: "g4",
+          value: {{uv_index}},
+          min: 0,
+          max: 40,
+          decimals: 1,
+          title: "UV Index",
+          gaugeWidthScale: 0.5
+        })
+
+        const g5 = new JustGage({
+          id: "g5",
+          value: {{uva}},
+          min: 0,
+          max: 100,
+          decimals: 1,
+          title: "UVA",
+          gaugeWidthScale: 0.5
+        })
+
+        const g6 = new JustGage({
+          id: "g6",
+          value: {{UVB}},
+          min: 0,
+          max: 10000,
+          decimals: 0,
+          title: "UVB",
           gaugeWidthScale: 0.5
         })
       })

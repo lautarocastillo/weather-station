@@ -3,6 +3,9 @@ from flask import Flask, render_template, request
 import Adafruit_DHT
 import RPi.GPIO as GPIO
 import time
+import board
+import busio
+import adafruit_veml6075
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
@@ -32,6 +35,11 @@ def create_app():
 
         return count
 
+    def uv_sensor():
+        i2c  = busio.I2C(board.SCL, board.SDA)
+        veml = adafruit_veml6075.VEML6075(i2c, integration_time=100)
+
+        return veml
 
     @app.route("/")
     @app.route("/json")
@@ -42,8 +50,12 @@ def create_app():
         templateData = {
             'temperature': round(temperature, 2),
             'humidity':    round(humidity, 2),
-            'light':       light
+            'light':       light,
+            'uv_index':    uv_sensor.uv_index,
+            'uva':         uv_sensor.uva,
+            'uvb':         uv_sensor.uvb
         }
+
         db = get_db()
         db.execute(
             'INSERT INTO weather (temperature, humidity, light) VALUES (?, ?, ?)',
