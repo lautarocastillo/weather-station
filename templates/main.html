@@ -19,6 +19,7 @@
           <a class="nav-link" href="/light">Light</a>
         </li>
       </ul>
+      <span class="navbar-text mr-sm-2">{{my_ip}}</span>
     </nav>
 
     <div class="container">
@@ -64,7 +65,7 @@
           value: {{light}},
           min: 0,
           max: 10000,
-          decimals: 2,
+          decimals: 0,
           title: "Light",
           gaugeWidthScale: 0.5
         })

@@ -1,8 +1,9 @@
 import os
-from flask    import Flask, render_template, request
+from flask     import Flask, render_template, request
 from .dht22    import Dht22
 from .ldr      import Ldr
 from .veml6075 import Veml6075
+from .myIp     import MyIp
 
 
 def create_app():
@@ -25,11 +26,13 @@ def create_app():
         dht_sensor = Dht22(DHT_PIN)
         light      = Ldr(LDR_PIN)
         weather    = dht_sensor.read()
+        ip         = MyIp.get()
 
         templateData = {
             **weather,
             'light': light.read(),
-            **uv_sensor.read()
+            **uv_sensor.read(),
+            'my_ip': ip
         }
 
         # db = get_db()
