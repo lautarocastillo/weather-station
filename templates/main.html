@@ -44,7 +44,7 @@
           value: {{temperature}},
           min: 0,
           max: 40,
-          decimals: 1,
+          decimals: 2,
           title: "Temperature",
           gaugeWidthScale: 0.5
         })
@@ -54,7 +54,7 @@
           value: {{humidity}},
           min: 0,
           max: 100,
-          decimals: 1,
+          decimals: 2,
           title: "Humidity",
           gaugeWidthScale: 0.5
         })
@@ -64,7 +64,7 @@
           value: {{light}},
           min: 0,
           max: 10000,
-          decimals: 0,
+          decimals: 2,
           title: "Light",
           gaugeWidthScale: 0.5
         })
@@ -73,8 +73,8 @@
           id: "g4",
           value: {{uv_index}},
           min: 0,
-          max: 40,
-          decimals: 1,
+          max: 10,
+          decimals: 2,
           title: "UV Index",
           gaugeWidthScale: 0.5
         })
@@ -84,17 +84,17 @@
           value: {{uva}},
           min: 0,
           max: 100,
-          decimals: 1,
+          decimals: 2,
           title: "UVA",
           gaugeWidthScale: 0.5
         })
 
         const g6 = new JustGage({
           id: "g6",
-          value: {{UVB}},
+          value: {{uvb}},
           min: 0,
-          max: 10000,
-          decimals: 0,
+          max: 100,
+          decimals: 2,
           title: "UVB",
           gaugeWidthScale: 0.5
         })
