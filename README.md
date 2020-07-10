@@ -10,7 +10,7 @@
 
 ## Run
 ```
-./app.py
+./start.sh
 ```
 
 
